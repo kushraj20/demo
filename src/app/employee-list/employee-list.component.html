@@ -1,0 +1,52 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+    {{pageTitle}}
+    </div>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-2"> filter by: </div>
+        <div class="col-md-8"> 
+            <input type="text" [(ngModel)] = 'nameFilter' placeholder="Name"/>
+            <input type="text" [(ngModel)] = 'genderFilter' placeholder="Gender"/>
+            <input type="text" [(ngModel)] = 'nameGenderFilter' placeholder="Name & Gender"/>
+            <input type="checkbox" [(ngModel)] = 'exactCheck'/>Exact Check
+             <input type="checkbox" [(ngModel)] = 'showSalary'/>Show Salary
+               <input type="checkbox" [(ngModel)] = 'showMasking'/>Show Masking
+        </div>
+    </div>
+    <div class="row">
+<div class="col-md-6"> 
+    <h3>Filtered By : </h3>
+</div>
+    </div>
+    <div class="table-responsive" *ngIf="employees && employees.length">
+        <table class="table" >
+            <thead>
+                <tr>
+                   
+                    <th (click)="showSorting='Name'"> Name </th>
+                    <th (click)="showSorting='DOB'"> DOB </th>
+                     <th (click)="showSorting='Age'"> Age </th>
+                    <th (click)="showSorting='Gender'"> Gender </th>
+                    <th *ngIf="showSalary" (click)="showSorting='Salary'"> Salary </th>
+                    <th *ngIf="showSalary" (click)="showSorting='Salary'"> Salary Currency </th>
+                    <th>Ranking</th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let employee of employees | employeeFilter : nameFilter:genderFilter:nameGenderFilter:exactCheck:showMasking:showSorting">
+                
+                   <td>{{employee.Name}}</td>
+                   <td>{{employee.DOB}}</td>
+                    <td>{{employee.Age}}</td>
+                   <td>{{employee.Gender}}</td>
+                   <td *ngIf="showSalary">{{showMasking ? employee.MaskSalary : employee.Salary}}</td>
+                   <td *ngIf="showSalary">{{employee.Currency}} {{ showMasking ? employee.MaskSalary : employee.Salary}}</td>
+                   <td><app-star [rating] = 'employee.StarRanking'></app-star></td>
+               </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+</div>
